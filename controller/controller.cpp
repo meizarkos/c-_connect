@@ -21,7 +21,7 @@ void Controller::operator-=(const EndPoint& toDelete){
   *this -= toDelete.getId();
 }
 
-void Controller::startBy(const std::function<bool(const EndPoint& ep)> condition) {
+void Controller::start(const std::function<bool(const EndPoint& ep)> condition) {
   for (auto& ep : endPoints) {
       if (condition(ep)) {  // condition is test for each enpoint ( it is a function )
           ep.start();
@@ -29,7 +29,7 @@ void Controller::startBy(const std::function<bool(const EndPoint& ep)> condition
   }
 }
 
-void Controller::stopBy(const std::function<bool(const EndPoint& ep)> condition) {
+void Controller::stop(const std::function<bool(const EndPoint& ep)> condition) {
   for (auto& ep : endPoints) {
       if (condition(ep)) {
           ep.stop();
@@ -38,6 +38,10 @@ void Controller::stopBy(const std::function<bool(const EndPoint& ep)> condition)
 }
 
 void Controller::status() const {
+  if(endPoints.empty()){
+    std::cout<<"No EndPoint in the controller"<<std::endl;
+    return;
+  }
   const int fieldWidth = 15;
   for (const auto& ep : endPoints) {
       std::cout << std::setw(fieldWidth) << ep.getId() << " |"

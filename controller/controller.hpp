@@ -21,8 +21,8 @@ struct Controller{
       void operator-=(const std::string& id);
       void operator-=(const EndPoint& ep);
 
-      void startBy(const std::function<bool(const EndPoint&)> condition);
-      void stopBy(const std::function<bool(const EndPoint&)> condition);
+      void start(const std::function<bool(const EndPoint&)> condition);
+      void stop(const std::function<bool(const EndPoint&)> condition);
       void status()const;
 };
 
