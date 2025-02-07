@@ -2,17 +2,22 @@
 #define _ENDPOINT_HPP_
 
 #include <string>
+#include <chrono>
 
 struct EndPoint{
 
     private:
         bool isRunning;
+        int timeOn;
+        int startedAt;
         std::string id;
         std::string location;
         std::string type;
 
     public:
         EndPoint(std::string id, std::string type,std::string location) : 
+            timeOn(0),
+            startedAt(-1), // code to say that the value is not viable
             isRunning(false), 
             id(id),
             location(location), 

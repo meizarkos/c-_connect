@@ -15,7 +15,19 @@ int main(){
   EndPoint ep3("Masseur", "Electrique", "Quelque part");
   EndPoint ep4("Four", "Electrique", "Cuisine");
   EndPoint ep5("Lave-linge", "Manuel", "Salle de bain");
-  
+
+  ep.start();
+
+  std::this_thread::sleep_for(std::chrono::milliseconds(5990));
+
+  ep.stop();
+  ep.start();
+
+  std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
+  ep.stop();
+
+
   /*Controller controller;
   controller += ep;
   controller += ep2;
