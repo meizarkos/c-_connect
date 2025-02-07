@@ -1,11 +1,15 @@
 #include "endpoint.hpp"
 
 void EndPoint::start(){
-    isRunning = true;
+    if(!isRunning){
+        isRunning = true;
+    }
 }
 
 void EndPoint::stop(){
-    isRunning = false;
+    if(isRunning){
+        isRunning = false;
+    }
 }
 
 bool EndPoint::status()const{
