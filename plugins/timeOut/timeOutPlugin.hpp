@@ -26,8 +26,8 @@ struct TimeOutPlugin{
           lock.lock(); // lock mutex
           auto now = std::chrono::system_clock::now(); // check timestamp of execution
           std::cout << "Executed at " << std::chrono::system_clock::to_time_t(now) << std::endl;
-          instance.stop(condition);
-          instance.status();
+          this->stop(condition);
+          
           lock.unlock(); // unlock mutex
       });
 
