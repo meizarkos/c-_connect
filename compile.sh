@@ -1,3 +1,4 @@
 #!/bin/bash
 
-g++ main.cpp ./endpoint/endpoint.cpp ./controller/controller.cpp ./plugins/startDelay/*.cpp
+g++ main.cpp $(find ./mutex -name "*.cpp") $(find ./endpoint -name "*.cpp") $(find ./controller -name "*.cpp") $(find ./plugins -name "*.cpp")
+

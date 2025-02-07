@@ -24,6 +24,7 @@ void Controller::operator-=(const EndPoint& toDelete){
 void Controller::start(const std::function<bool(const EndPoint& ep)> condition) {
   for (auto& ep : endPoints) {
       if (condition(ep)) {  // condition is test for each enpoint ( it is a function )
+          std::cout<<"Starting"<<std::endl;
           ep.start();
       }
   }

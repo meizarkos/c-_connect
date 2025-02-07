@@ -1,8 +1,12 @@
-#include <iostream>
 #include "./endpoint/endpoint.hpp"
 #include "./controller/controller.hpp"
 #include "./plugins/startDelay/startDelayPlugin.hpp"
+#include "./plugins/timeOut/timeOutPlugin.hpp"
+#include "./mutex/mutexShared.hpp"
+#include <iostream>
 #include <chrono>
+#include <thread>
+#include <mutex>
 
 int main(){
 
@@ -20,23 +24,64 @@ int main(){
   controller += ep5;*/
 
   std::cout << std::boolalpha;
-  StartDelayPlugin<1, Controller> startDelayPlugin;
 
+  /*
+  StartDelayPlugin<1, Controller> startDelayPlugin;
   startDelayPlugin += ep;
   startDelayPlugin += ep2;
   startDelayPlugin += ep3;
 
   auto now = std::chrono::system_clock::now();
   std::cout << "Starting at " << std::chrono::system_clock::to_time_t(now) << std::endl;
+
   startDelayPlugin.start([](const EndPoint& ep){
     return ep.getLocation() == "Sous-sol";
   });
-  now = std::chrono::system_clock::now();
-  std::cout << "Started at " << std::chrono::system_clock::to_time_t(now) << std::endl;
 
   startDelayPlugin.stop([](const EndPoint& ep){
     return ep.getLocation() == "Sous-sol";
   });
+
+  std::this_thread::sleep_for(std::chrono::milliseconds(1)); //wait for the thread to finish
+
+  std::unique_lock<std::mutex> lock(sharedMutex, std::defer_lock); //is theorically useless
+  lock.lock();
+  now = std::chrono::system_clock::now();
+  std::cout << "Ended at " << std::chrono::system_clock::to_time_t(now) << std::endl;
+  startDelayPlugin.getInstance().status();
+  lock.unlock();
+
+  std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+  startDelayPlugin.getInstance().status();
+  */
+
+  /*
+  TimeOutPlugin<1, Controller> timeOutPlugin;
+  timeOutPlugin += ep;
+  timeOutPlugin += ep2;
+  timeOutPlugin += ep3;
+
+  timeOutPlugin.getInstance().start([](const EndPoint& ep){
+    return ep.getLocation() == "Sous-sol";
+  });
+
+  timeOutPlugin.getInstance().status();
+
+  timeOutPlugin.start([](const EndPoint& ep){ // stop sous-sol after 1 seconds
+    return ep.getLocation() == "Sous-sol";
+  });
+
+  std::this_thread::sleep_for(std::chrono::milliseconds(500)); //wait for the thread to finish
+
+  std::unique_lock<std::mutex> lock(sharedMutex, std::defer_lock); //is theorically useless
+  lock.lock();
+  auto now = std::chrono::system_clock::now();
+  std::cout << "Ended at " << std::chrono::system_clock::to_time_t(now) << std::endl;
+  timeOutPlugin.getInstance().status();
+  lock.unlock();
+
+  std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+  */
 
   return 0;
 }
