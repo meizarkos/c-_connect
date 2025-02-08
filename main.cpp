@@ -102,5 +102,14 @@ int main(){
   logDelayPlugin += ep2;
   logDelayPlugin += ep3;
 
+  auto now = std::chrono::system_clock::now();
+  std::cout << "Starting at " << std::chrono::system_clock::to_time_t(now) << std::endl;
+
+  logDelayPlugin.start([](const EndPoint& ep){
+    return ep.getLocation() == "Sous-sol";
+  });
+
+  std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+
   return 0;
 }

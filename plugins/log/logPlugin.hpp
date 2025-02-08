@@ -1,6 +1,8 @@
 #ifndef _LOGPLUGIN_HPP_
 #define _LOGPLUGIN_HPP_
 
+//https://www.reddit.com/r/cpp_questions/comments/pumi9r/does_c20_not_support_string_literals_as_template/
+
 #include "../../endpoint/endpoint.hpp"
 #include <functional>
 #include <string>
@@ -8,7 +10,18 @@
 #include <fstream>
 #include <iostream>
 
-template<char const *LABEL, typename T>
+template <auto N>
+struct StringLitteral {
+    constexpr StringLitteral(const char (&str)[N]) { 
+      std::copy(str, str + N, value);
+    }
+
+    char value[N];
+    auto operator<=>(const StringLiteral&) const = default;
+    bool operator==(const StringLiteral&) const  = default;
+};
+
+template<StringLitteral LABEL, typename T>
 struct LogPlugin{
   private:
     T instance;

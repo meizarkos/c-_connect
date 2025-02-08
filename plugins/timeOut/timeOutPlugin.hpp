@@ -37,7 +37,7 @@ struct TimeOutPlugin{
 
     void stop(const std::function<bool(const EndPoint& ep)> condition){
       instance.stop(condition);
-      instance.status();
+      
     }
 
     void operator+=(const EndPoint& ep){

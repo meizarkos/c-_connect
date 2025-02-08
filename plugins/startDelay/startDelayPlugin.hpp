@@ -27,7 +27,6 @@ struct StartDelayPlugin{
           auto now = std::chrono::system_clock::now(); // check timestamp of execution
           std::cout << "Executed at " << std::chrono::system_clock::to_time_t(now) << std::endl;
           instance.start(condition);
-          instance.status();
           lock.unlock(); // unlock mutex
       });
 
@@ -36,7 +35,6 @@ struct StartDelayPlugin{
 
     void stop(const std::function<bool(const EndPoint& ep)> condition){
       instance.stop(condition);
-      instance.status();
     }
 
     void operator+=(const EndPoint& ep){
