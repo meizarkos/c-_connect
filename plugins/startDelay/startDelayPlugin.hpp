@@ -3,6 +3,7 @@
 
 #include "../../endpoint/endpoint.hpp"
 #include "../../mutex/mutexShared.hpp"
+#include "../../utils/utils.hpp"
 #include <thread>
 #include <chrono>
 #include <functional>
@@ -24,8 +25,8 @@ struct StartDelayPlugin{
           std::unique_lock<std::mutex> lock(sharedMutex, std::defer_lock);
 
           lock.lock(); // lock mutex
-          auto now = std::chrono::system_clock::now(); // check timestamp of execution
-          std::cout << "Executed at " << std::chrono::system_clock::to_time_t(now) << std::endl;
+          std::string date = convertNowtoLocalTime();
+          std::cout << "Executed at " << date << std::endl;
           instance.start(condition);
           lock.unlock(); // unlock mutex
       });

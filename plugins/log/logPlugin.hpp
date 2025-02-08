@@ -4,38 +4,41 @@
 //https://www.reddit.com/r/cpp_questions/comments/pumi9r/does_c20_not_support_string_literals_as_template/
 
 #include "../../endpoint/endpoint.hpp"
+#include "../../utils/utils.cpp"
 #include <functional>
 #include <string>
 #include <chrono>
 #include <fstream>
 #include <iostream>
 
-template <auto N>
-struct StringLitteral {
-    constexpr StringLitteral(const char (&str)[N]) { 
-      std::copy(str, str + N, value);
+template<size_t N>
+struct StringLiteral {
+    constexpr StringLiteral(const char (&str)[N]) {         
+      std::copy_n(str, N, value); 
     }
 
     char value[N];
     auto operator<=>(const StringLiteral&) const = default;
     bool operator==(const StringLiteral&) const  = default;
+    friend std::ostream& operator<<(std::ostream& os, const StringLiteral<N>& sl) {
+      os << sl.value;
+      return os;
+    }
 };
 
-template<StringLitteral LABEL, typename T>
+template<StringLiteral LABEL, typename T>
 struct LogPlugin{
   private:
     T instance;
 
     void writeLineinFile(const std::string endpointNewStatus)const{
-      auto now = std::chrono::system_clock::now();
-      std::time_t nowTime = std::chrono::system_clock::to_time_t(now);
-      char buffer[100];
-      strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", nowTime); // convert timestamp to date
+      
+      std::string date = convertNowtoLocalTime();
 
       std::ofstream file("output.txt", std::ios::app); //append mode
       if (file.is_open()) {
-        file << LABEL <<" "<< buffer << " : " << endpointNewStatus << std::endl;  //comme pour cout mais dans un fichier
-        std::cout << "Time written to file: " << buffer << std::endl;
+        file << LABEL <<" "<< date << " : " << endpointNewStatus << std::endl;  //comme pour cout mais dans un fichier
+        std::cout << "Time written to file: " << date << std::endl;
       } else {
           std::cerr << "Error opening file!" << std::endl;
       }

@@ -3,6 +3,7 @@
 #include "./plugins/startDelay/startDelayPlugin.hpp"
 #include "./plugins/timeOut/timeOutPlugin.hpp"
 #include "./plugins/log/logPlugin.hpp"
+#include "./utils/utils.hpp"
 #include "./mutex/mutexShared.hpp"
 #include <iostream>
 #include <chrono>
@@ -97,19 +98,21 @@ int main(){
   std::this_thread::sleep_for(std::chrono::milliseconds(5000));
   */
 
-  StartDelayPlugin<1, LogPlugin<"TEST", Controller>> logDelayPlugin;
+  StartDelayPlugin<5,LogPlugin<"TEST", Controller>> logDelayPlugin;
   logDelayPlugin += ep;
   logDelayPlugin += ep2;
   logDelayPlugin += ep3;
 
-  auto now = std::chrono::system_clock::now();
-  std::cout << "Starting at " << std::chrono::system_clock::to_time_t(now) << std::endl;
+  std::string date = convertNowtoLocalTime();
+  std::cout << "Starting at " << date << std::endl;
 
   logDelayPlugin.start([](const EndPoint& ep){
     return ep.getLocation() == "Sous-sol";
   });
 
-  std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+  std::this_thread::sleep_for(std::chrono::milliseconds(5500));
+
+  logDelayPlugin.getInstance().getInstance().status(); 
 
   return 0;
 }
