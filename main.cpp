@@ -2,6 +2,7 @@
 #include "./controller/controller.hpp"
 #include "./plugins/startDelay/startDelayPlugin.hpp"
 #include "./plugins/timeOut/timeOutPlugin.hpp"
+#include "./plugins/log/logPlugin.hpp"
 #include "./mutex/mutexShared.hpp"
 #include <iostream>
 #include <chrono>
@@ -95,6 +96,11 @@ int main(){
 
   std::this_thread::sleep_for(std::chrono::milliseconds(5000));
   */
+
+  StartDelayPlugin<1, LogPlugin<"TEST", Controller>> logDelayPlugin;
+  logDelayPlugin += ep;
+  logDelayPlugin += ep2;
+  logDelayPlugin += ep3;
 
   return 0;
 }
