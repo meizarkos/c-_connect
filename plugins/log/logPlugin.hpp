@@ -13,20 +13,19 @@
 
 template<size_t N>
 struct StringLiteral {
-    constexpr StringLiteral(const char (&str)[N]) {         
+    constexpr StringLiteral(const char (&str)[N]) { // the value of str can be evaluate at compile time due to constexpr     
       std::copy_n(str, N, value); 
     }
 
     char value[N];
-    auto operator<=>(const StringLiteral&) const = default;
-    bool operator==(const StringLiteral&) const  = default;
-    friend std::ostream& operator<<(std::ostream& os, const StringLiteral<N>& sl) {
+    
+    friend std::ostream& operator<<(std::ostream& os, const StringLiteral<N>& sl){
       os << sl.value;
       return os;
     }
 };
 
-template<StringLiteral LABEL, typename T>
+template<StringLiteral LABEL, typename T> // Since StringLiteral is evaluate at compile time, it can be used as a template parameter
 struct LogPlugin{
   private:
     T instance;

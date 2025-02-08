@@ -99,6 +99,7 @@ int main(){
   */
 
   StartDelayPlugin<5,LogPlugin<"TEST", Controller>> logDelayPlugin;
+  //Test est convertit en constexpr dans StringLiteral
   logDelayPlugin += ep;
   logDelayPlugin += ep2;
   logDelayPlugin += ep3;
