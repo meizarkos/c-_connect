@@ -31,6 +31,8 @@ struct EndPoint{
         std::string getLocation()const;
         std::string getType()const;
         std::string getId()const;
+        int getTimeOn()const;
+        int getStartedAt()const;
 };
 
 #endif

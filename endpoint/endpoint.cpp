@@ -36,3 +36,11 @@ std::string EndPoint::getId()const{
     return id;
 }
 
+int EndPoint::getTimeOn()const{
+    return timeOn;
+}
+
+int EndPoint::getStartedAt()const{
+    return startedAt;
+}
+

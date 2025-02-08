@@ -4,6 +4,7 @@
 //https://www.reddit.com/r/cpp_questions/comments/pumi9r/does_c20_not_support_string_literals_as_template/
 
 #include "../../endpoint/endpoint.hpp"
+#include "../../controller/controller.hpp"
 #include "../../utils/utils.cpp"
 #include <functional>
 #include <string>
@@ -68,6 +69,10 @@ struct LogPlugin{
 
     void operator-=(const std::string& id){
       instance -= id;
+    }
+
+    T operator=(const T& c){
+      return c;
     }
 
     T& getInstance(){ // return the instance of the controller if we delete & it return a copy

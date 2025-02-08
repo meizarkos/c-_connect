@@ -3,6 +3,7 @@
 #include "./plugins/startDelay/startDelayPlugin.hpp"
 #include "./plugins/timeOut/timeOutPlugin.hpp"
 #include "./plugins/log/logPlugin.hpp"
+#include "./plugins/chronoEndpoint/chronoPlugin.hpp"
 #include "./utils/utils.hpp"
 #include "./mutex/mutexShared.hpp"
 #include <iostream>
@@ -98,22 +99,50 @@ int main(){
   std::this_thread::sleep_for(std::chrono::milliseconds(5000));
   */
 
-  StartDelayPlugin<5,LogPlugin<"TEST", Controller>> logDelayPlugin;
+  /*
+  StartDelayPlugin<3,LogPlugin<"TEST", Controller>> logDelayPlugin;
   //Test est convertit en constexpr dans StringLiteral
   logDelayPlugin += ep;
   logDelayPlugin += ep2;
   logDelayPlugin += ep3;
 
+  TimeOutPlugin<8,LogPlugin<"STOPTimeout", Controller>> logStopDelayPlugin;
+  logStopDelayPlugin += ep;
+  logStopDelayPlugin += ep2;
+  logStopDelayPlugin += ep3;
+
   std::string date = convertNowtoLocalTime();
   std::cout << "Starting at " << date << std::endl;
+
+  logDelayPlugin.stop([](const EndPoint& ep){
+    return ep.getLocation() == "Sous-sol";
+  });
+
+  logStopDelayPlugin.start([](const EndPoint& ep){
+    return ep.getLocation() == "Sous-sol";
+  });
 
   logDelayPlugin.start([](const EndPoint& ep){
     return ep.getLocation() == "Sous-sol";
   });
 
-  std::this_thread::sleep_for(std::chrono::milliseconds(5500));
+  std::this_thread::sleep_for(std::chrono::milliseconds(4000));
 
   logDelayPlugin.getInstance().getInstance().status(); 
+
+  std::this_thread::sleep_for(std::chrono::milliseconds(4000));
+
+  logStopDelayPlugin.getInstance().getInstance().status();
+  */
+
+  ChronoPlugin<LogPlugin<"Random",Controller>> chronoPlugin;
+  chronoPlugin += ep;
+  chronoPlugin += ep2;
+  chronoPlugin += ep3;
+
+  chronoPlugin.start([](const EndPoint& ep){
+    return ep.getLocation() == "Sous-sol";
+  });
 
   return 0;
 }
