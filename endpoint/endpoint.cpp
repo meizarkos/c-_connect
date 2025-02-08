@@ -7,7 +7,7 @@ void EndPoint::start(){
     if(!isRunning){
         isRunning = true;
         startedAt = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-        std::cout << startedAt << std::endl;
+        //std::cout << startedAt << std::endl;
     }
 }
 
@@ -16,7 +16,7 @@ void EndPoint::stop(){
         isRunning = false;
         timeOn += std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()) - startedAt;
         startedAt = -1;
-        std::cout << timeOn << std::endl;
+        //std::cout << timeOn << std::endl;
     }
 }
 
